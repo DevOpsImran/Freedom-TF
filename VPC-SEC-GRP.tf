@@ -1,10 +1,3 @@
-provider "aws"{
-  region  = var.aws_region
-  access_key=var.access_key
-  secret_key=var.secret_key
-
-}
-
 resource "aws_vpc" "vpc" {
   cidr_block = var.vpcCIDRblock
   enable_dns_hostnames = true
@@ -63,7 +56,7 @@ resource "aws_route_table_association" "rt_association" {
 #Associate IGW to route table
 resource aws_route "attach_igw_pub" {
 
-  route_table_id         = aws_route_table.rt_table[0].id
+  route_table_id         = aws_route_table.rt_table[1].id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.igw.id
 
