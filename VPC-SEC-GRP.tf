@@ -36,6 +36,10 @@ resource aws_subnet "subnet" {
 
   }
 } #END of subnet creation
+
+
+
+
 resource aws_route_table "rt_table" {
   vpc_id = aws_vpc.vpc.id
   count  = length(var.rt_table_names)
@@ -44,8 +48,8 @@ resource aws_route_table "rt_table" {
 	Client = "Freedom",
 	Environment = "NonProd"
   }
-
 }
+
 # subnet association to route table
 resource "aws_route_table_association" "rt_association" {
   count = length(var.subnet_names)
@@ -55,12 +59,12 @@ resource "aws_route_table_association" "rt_association" {
 
 #Associate IGW to route table
 resource aws_route "attach_igw_pub" {
-
-  route_table_id         = aws_route_table.rt_table[1].id
+  count = length(var.rt_table_names)
+  route_table_id         = aws_route_table.rt_table[count.index].id
   destination_cidr_block = "0.0.0.0/0"
   gateway_id             = aws_internet_gateway.igw.id
-
 }
+
 
 resource "aws_security_group" "seg_public" {
   name        = "Freedom-nonprod-sg"
@@ -76,11 +80,19 @@ resource "aws_security_group" "seg_public" {
   }
   ingress {
     description = "Hive-2"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "HTTP"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "TCP"
     cidr_blocks = ["121.242.155.146/32"]
   }
+   ingress {
+    description = "SSH-Imran"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "TCP"
+    cidr_blocks = ["106.198.89.195/32"]
+  }
+
 
   tags = {
     Name   = "Freedom-preprod",
@@ -91,3 +103,10 @@ resource "aws_security_group" "seg_public" {
 
 }
 
+
+output "subnetid" {
+  value = {
+    for x in range(length(var.subnet_names)) :
+    var.subnet_names[x] => aws_subnet.subnet[x].id
+  }
+}

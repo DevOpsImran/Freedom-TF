@@ -183,16 +183,20 @@ EOF
 #######################
           
 resource "aws_iam_role_policy_attachment" "policy_attach-ssm" {
+  depends_on = [aws_iam_policy.policy-ssm]
   role = aws_iam_role.role.name
   policy_arn = aws_iam_policy.policy-ssm.arn
+
 }
 
 resource "aws_iam_role_policy_attachment" "policy_attach-s3" {
+  depends_on = [aws_iam_policy.policy-s3]
   role = aws_iam_role.role.name
   policy_arn = aws_iam_policy.policy-s3.arn
 }
 
 resource "aws_iam_role_policy_attachment" "policy_attach-cloudwatch" {
+  depends_on = [aws_iam_policy.policy-cloudwatch]
   role = aws_iam_role.role.name
   policy_arn = aws_iam_policy.policy-cloudwatch.arn
 }
