@@ -2,10 +2,11 @@ resource "aws_vpc" "vpc" {
   cidr_block = var.vpcCIDRblock
   enable_dns_hostnames = true
   tags = {
-    Name   = "Freedom-nonprod-VPC",
-    Client = "Freedom"
-	Environment = "NonProd"
-  }
+    Name   = "Freedom-UAT-create-nonprod",
+    Client = var.Global-Tag["Client"],
+    Environment = var.Global-Tag["Env"]
+    Owner = var.Global-Tag["Owner"]
+ }
 } 
 # END of VPC RESOURCE
 
@@ -14,8 +15,9 @@ resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.vpc.id
   tags = {
     Name = "Freedom-nonprod-VPC-IGW",
-	Client = "Freedom",
-	Environment = "NonProd"
+    Client = var.Global-Tag["Client"],
+     Environment = var.Global-Tag["Env"]
+     Owner = var.Global-Tag["Owner"]
   }
 }
 
@@ -31,9 +33,9 @@ resource aws_subnet "subnet" {
   tags = {
     count = length(var.subnet_names)
     Name  = var.subnet_names[count.index],
-	Client = "Freedom",
-	Environment = "NonProd"
-
+    Client = var.Global-Tag["Client"],
+     Environment = var.Global-Tag["Env"]
+     Owner = var.Global-Tag["Owner"]
   }
 } #END of subnet creation
 
@@ -45,9 +47,10 @@ resource aws_route_table "rt_table" {
   count  = length(var.rt_table_names)
   tags = {
     Name = var.rt_table_names[count.index],
-	Client = "Freedom",
-	Environment = "NonProd"
-  }
+    Client = var.Global-Tag["Client"],
+     Environment = var.Global-Tag["Env"]
+     Owner = var.Global-Tag["Owner"] 
+ }
 }
 
 # subnet association to route table
@@ -96,9 +99,10 @@ resource "aws_security_group" "seg_public" {
 
   tags = {
     Name   = "Freedom-preprod",
-    Client = "Freedom",
-	Environment = "NonProd"
-  }
+    Client = var.Global-Tag["Client"],
+     Environment = var.Global-Tag["Env"]
+     Owner = var.Global-Tag["Owner"]
+   }
 
 
 }

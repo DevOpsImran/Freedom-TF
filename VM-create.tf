@@ -14,4 +14,10 @@ resource "aws_instance" "UAT-create-nonprod" {
     volume_type           = "gp2"
     delete_on_termination = "true"
   }
+  tags = {
+     Name = var.UAT-nonprod["instance_name"],
+     Client = var.Global-Tag["Client"],
+     Environment = var.Global-Tag["Env"]
+     Owner = var.Global-Tag["Owner"] 
+ }
 }
