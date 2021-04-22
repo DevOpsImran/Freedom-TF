@@ -112,7 +112,7 @@ resource "aws_security_group" "seg_public" {
     cidr_blocks = ["121.242.155.146/32"]
   }
   ingress {
-    description = "int-routing"
+    description = "internal-routing"
     from_port   = 6379
     to_port     = 6379
     protocol    = "TCP"
