@@ -70,6 +70,7 @@ resource aws_route "attach_igw_pub" {
 
 
 resource "aws_security_group" "seg_public" {
+  depends_on  = [aws_security_group.redis-2-sec-grp]
   name        = "Freedom-nonprod-sg"
   description = "Freedom nonprod security group"
   vpc_id      = aws_vpc.vpc.id
@@ -96,6 +97,30 @@ resource "aws_security_group" "seg_public" {
     cidr_blocks = ["106.198.89.195/32"]
   }
 
+  ingress {
+    description = "Hive-1"
+    from_port   = 26379
+    to_port     = 26379
+    protocol    = "TCP"
+    cidr_blocks = ["182.72.168.142/32"]
+  }
+  ingress {
+    description = "Hive-2"
+    from_port   = 6379
+    to_port     = 6379
+    protocol    = "TCP"
+    cidr_blocks = ["121.242.155.146/32"]
+  }
+  ingress {
+    description = "int-routing"
+    from_port   = 6379
+    to_port     = 6379
+    protocol    = "TCP"
+    security_groups = ["${aws_security_group.redis-2-sec-grp.id}"]
+  }
+
+
+
 
   tags = {
     Name   = "Freedom-preprod",
@@ -106,6 +131,84 @@ resource "aws_security_group" "seg_public" {
 
 
 }
+
+## SEC-GRP for Freedom-UAT-create-nonprod-redis-1
+resource "aws_security_group" "Redis-1-win-seg_public" {
+  name        = "Freedom-UAT-create-nonprod-redis-1"
+  description = "Freedom-UAT-create-nonprod-redis-1"
+  vpc_id      = aws_vpc.vpc.id
+
+  ingress {
+    description = "Hive-1"
+    from_port   = 3389
+    to_port     = 3389
+    protocol    = "TCP"
+    cidr_blocks = ["182.72.168.142/32"]
+  }
+  ingress {
+    description = "Hive-2"
+    from_port   = 3389
+    to_port     = 3389
+    protocol    = "TCP"
+    cidr_blocks = ["121.242.155.146/32"]
+  }
+   ingress {
+    description = "SSH-Imran"
+    from_port   = 3389
+    to_port     = 3389
+    protocol    = "TCP"
+    cidr_blocks = ["106.198.81.152/32"]
+  }
+
+
+  tags = {
+    Name   = "Freedom-nonprod-redis-1",
+    Client = var.Global-Tag["Client"],
+     Environment = var.Global-Tag["Env"]
+     Owner = var.Global-Tag["Owner"]
+   }
+
+
+}
+##
+resource "aws_security_group" "redis-2-sec-grp" {
+  name        = "Freedom-UAT-create-nonprod-redis-2"
+  description = "Freedom-UAT-create-nonprod-redis-2"
+  vpc_id      = aws_vpc.vpc.id
+
+  ingress {
+    description = "Hive-1"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "TCP"
+    cidr_blocks = ["182.72.168.142/32"]
+  }
+  ingress {
+    description = "Hive-2"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "TCP"
+    cidr_blocks = ["121.242.155.146/32"]
+  }
+   ingress {
+    description = "SSH-Imran"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "TCP"
+    cidr_blocks = ["106.198.81.152/32"]
+  }
+
+
+  tags = {
+    Name   = "Freedom-preprod-redis-2",
+    Client = var.Global-Tag["Client"],
+     Environment = var.Global-Tag["Env"]
+     Owner = var.Global-Tag["Owner"]
+   }
+
+
+}
+##
 
 
 output "subnetid" {
