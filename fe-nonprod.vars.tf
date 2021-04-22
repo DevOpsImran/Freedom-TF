@@ -42,6 +42,31 @@ variable "UAT-nonprod" {
   }
 }
 
+variable "UAT-nonprod-redis-1" {
+  type    = map(string)
+  default = {
+    "ami" = "ami-09934b230a2c41883"
+    "instance_type" = "t2.micro"
+    "avail_zone" = "ca-central-1a"
+    "instance_name" = "Freedom-UAT-create-nonprod-redis-1"
+    "volume_size" = "12"
+
+  }
+}
+variable "UAT-nonprod-redis-2" {
+  type    = map(string)
+  default = {
+    "ami" = "ami-09934b230a2c41883"
+    "instance_type" = "t2.micro"
+    "avail_zone" = "ca-central-1a"
+    "instance_name" = "Freedom-UAT-create-nonprod-2"
+    "volume_size" = "12"
+
+  }
+}
+
+
+
 variable "Global-Tag" {
   type = map(string)
   default = {

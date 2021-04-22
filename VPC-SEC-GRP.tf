@@ -172,6 +172,7 @@ resource "aws_security_group" "Redis-1-win-seg_public" {
 }
 ##
 resource "aws_security_group" "redis-2-sec-grp" {
+#  depends_on = [aws_instance.UAT-create-nonprod]
   name        = "Freedom-UAT-create-nonprod-redis-2"
   description = "Freedom-UAT-create-nonprod-redis-2"
   vpc_id      = aws_vpc.vpc.id
@@ -197,6 +198,14 @@ resource "aws_security_group" "redis-2-sec-grp" {
     protocol    = "TCP"
     cidr_blocks = ["106.198.81.152/32"]
   }
+ ingress {
+    description = "Internal-Routing"
+    from_port   = 26379
+    to_port     = 26379
+    protocol    = "TCP"
+    cidr_blocks = ["106.198.81.152/32"]
+  }
+
 
 
   tags = {
