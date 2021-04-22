@@ -200,3 +200,8 @@ resource "aws_iam_role_policy_attachment" "policy_attach-cloudwatch" {
   role = aws_iam_role.role.name
   policy_arn = aws_iam_policy.policy-cloudwatch.arn
 }
+
+resource "aws_iam_instance_profile" "freedom_IAM_profile" {
+  name = "Freedom-SSM"
+  role = "${aws_iam_role.role.name}"
+}

@@ -7,7 +7,7 @@ resource "aws_instance" "UAT-create-nonprod" {
   subnet_id = "${aws_subnet.subnet[0].id}"
   associate_public_ip_address = "true"
 	depends_on = [aws_security_group.seg_public, aws_iam_role.role]
-#	iam_instance_profile ="${aws_iam_role.role.id}" 
+	iam_instance_profile ="${aws_iam_instance_profile.freedom_IAM_profile.name}" 
 	key_name="freedom-nonprod"
   
   root_block_device {
