@@ -75,11 +75,29 @@ variable "Global-Tag" {
     "Env"= "UAT"
   }
 }
+/*
+# LB Target Creation nested MAP
+variable "Target-creation" {
+  type    = map(string)
+  default = {
+    
+    "ami" = "ami-09934b230a2c41883"
+    "instance_type" = "t2.micro"
+    "avail_zone" = "ca-central-1a"
+    "instance_name" = "Freedom-UAT-create-nonprod-redis-2"
+    "volume_size" = "12"
 
+  },
+  {
+   "ami" = "ami-09934b230a2c41883"
+    "instance_type" = "t2.micro"
+    "avail_zone" = "ca-central-1a"
+    "instance_name" = "Freedom-UAT-create-nonprod-redis-2"
+    "volume_size" = "12"
 
+  } 
+}
 
-
-
-
+*/
 
 
